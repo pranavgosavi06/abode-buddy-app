@@ -114,6 +114,8 @@ const StudentBookings = () => {
                   booking={booking}
                   onCancel={handleCancelBooking}
                   onMessage={handleMessageOwner}
+                  getStatusBadge={getStatusBadge}
+                  getPaymentStatusBadge={getPaymentStatusBadge}
                 />
               ))
             ) : (
@@ -130,6 +132,8 @@ const StudentBookings = () => {
                 booking={booking}
                 onCancel={handleCancelBooking}
                 onMessage={handleMessageOwner}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -141,6 +145,8 @@ const StudentBookings = () => {
                 booking={booking}
                 onCancel={handleCancelBooking}
                 onMessage={handleMessageOwner}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -152,6 +158,8 @@ const StudentBookings = () => {
                 booking={booking}
                 onCancel={handleCancelBooking}
                 onMessage={handleMessageOwner}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -165,9 +173,11 @@ interface BookingCardProps {
   booking: typeof bookingsData[0];
   onCancel: (id: string) => void;
   onMessage: (ownerName: string) => void;
+  getStatusBadge: (status: string) => React.ReactNode;
+  getPaymentStatusBadge: (status: string) => React.ReactNode;
 }
 
-const BookingCard = ({ booking, onCancel, onMessage }: BookingCardProps) => {
+const BookingCard = ({ booking, onCancel, onMessage, getStatusBadge, getPaymentStatusBadge }: BookingCardProps) => {
   const formattedCheckIn = new Date(booking.checkIn).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',

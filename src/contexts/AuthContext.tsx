@@ -9,6 +9,14 @@ interface User {
   email: string;
   role: UserRole;
   avatar?: string;
+  phone?: string;
+  address?: string;
+  // Student specific fields
+  college?: string;
+  // Owner specific fields
+  businessName?: string;
+  description?: string;
+  gstNumber?: string;
 }
 
 interface AuthContextType {
@@ -18,6 +26,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string, role: UserRole) => Promise<void>;
   logout: () => void;
+  updateUserProfile: (data: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -73,6 +82,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // For demo purposes, determine role by email
         role: email.includes('owner') ? 'owner' : 'student',
         avatar: `https://ui-avatars.com/api/?name=${email.split('@')[0]}&background=3B82F6&color=fff`,
+        // Add mock data for additional fields
+        phone: '+91 9876543210',
+        address: 'Sample Address, City',
+        college: email.includes('owner') ? undefined : 'Sample University',
+        businessName: email.includes('owner') ? 'Sample PG Business' : undefined,
+        description: email.includes('owner') ? 'A great PG accommodation provider' : undefined,
+        gstNumber: email.includes('owner') ? 'GST12345678' : undefined,
       });
       
       // Save user to localStorage (for persistence)
@@ -96,6 +112,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email,
         role,
         avatar: `https://ui-avatars.com/api/?name=${name}&background=3B82F6&color=fff`,
+        // Add mock data for additional fields
+        phone: '',
+        address: '',
+        college: role === 'student' ? '' : undefined,
+        businessName: role === 'owner' ? '' : undefined,
+        description: role === 'owner' ? '' : undefined,
+        gstNumber: role === 'owner' ? '' : undefined,
       });
       
       // Save user to localStorage (for persistence)
@@ -103,6 +126,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(mockUser);
     } catch (error) {
       console.error('Registration failed:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateUserProfile = async (data: Partial<User>) => {
+    setIsLoading(true);
+    try {
+      // In a real app, this would be an API call to update user data
+      if (user) {
+        const updatedUser = {
+          ...user,
+          ...data
+        };
+        
+        await mockApiCall(updatedUser);
+        
+        // Update localStorage
+        localStorage.setItem('pgapp_user', JSON.stringify(updatedUser));
+        setUser(updatedUser);
+      }
+    } catch (error) {
+      console.error('Profile update failed:', error);
       throw error;
     } finally {
       setIsLoading(false);
@@ -124,6 +171,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         register,
         logout,
+        updateUserProfile,
       }}
     >
       {children}

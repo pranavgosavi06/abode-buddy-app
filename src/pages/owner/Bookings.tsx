@@ -123,6 +123,8 @@ const OwnerBookings = () => {
                   onAccept={handleAcceptBooking}
                   onReject={handleRejectBooking}
                   onMessage={handleMessageStudent}
+                  getStatusBadge={getStatusBadge}
+                  getPaymentStatusBadge={getPaymentStatusBadge}
                 />
               ))
             ) : (
@@ -140,6 +142,8 @@ const OwnerBookings = () => {
                 onAccept={handleAcceptBooking}
                 onReject={handleRejectBooking}
                 onMessage={handleMessageStudent}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -152,6 +156,8 @@ const OwnerBookings = () => {
                 onAccept={handleAcceptBooking}
                 onReject={handleRejectBooking}
                 onMessage={handleMessageStudent}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -164,6 +170,8 @@ const OwnerBookings = () => {
                 onAccept={handleAcceptBooking}
                 onReject={handleRejectBooking}
                 onMessage={handleMessageStudent}
+                getStatusBadge={getStatusBadge}
+                getPaymentStatusBadge={getPaymentStatusBadge}
               />
             ))}
           </TabsContent>
@@ -178,9 +186,18 @@ interface BookingCardProps {
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
   onMessage: (studentName: string) => void;
+  getStatusBadge: (status: string) => React.ReactNode;
+  getPaymentStatusBadge: (status: string) => React.ReactNode;
 }
 
-const BookingCard = ({ booking, onAccept, onReject, onMessage }: BookingCardProps) => {
+const BookingCard = ({ 
+  booking, 
+  onAccept, 
+  onReject, 
+  onMessage, 
+  getStatusBadge, 
+  getPaymentStatusBadge 
+}: BookingCardProps) => {
   const formattedCheckIn = new Date(booking.checkIn).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',

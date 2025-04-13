@@ -41,6 +41,12 @@ const PgCard = ({
             src={image}
             alt={name}
             className="object-cover w-full h-48"
+            onError={(e) => {
+              // Fallback if image fails to load
+              const target = e.target as HTMLImageElement;
+              target.src = "https://source.unsplash.com/featured/600x400?apartment,interior";
+              target.onerror = null; // Prevent infinite loop if fallback also fails
+            }}
           />
           <div className="absolute top-2 right-2">
             <Badge className={`${

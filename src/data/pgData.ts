@@ -78,8 +78,9 @@ export const generatePgData = (count: number): PgCardProps[] => {
     
     const price = (Math.floor(Math.random() * 10) + 5) * 1000; // Price between 5000 and 14000
     
-    const imageId = Math.floor(Math.random() * 1000);
-    const image = `https://source.unsplash.com/featured/600x400?apartment,interior,${imageId}`; 
+    // Use a more reliable image source with better caching
+    const imageId = Math.floor(Math.random() * 20) + 1;
+    const image = `https://source.unsplash.com/collection/1118894/600x400?sig=${imageId}`; 
     
     pgData.push({
       id: generateId(),

@@ -45,6 +45,7 @@ const PgDetailPage = () => {
   const [currentImage, setCurrentImage] = useState(0);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean[]>([]);
 
   useEffect(() => {
     if (!id) {
@@ -58,6 +59,7 @@ const PgDetailPage = () => {
         // Simulate API call
         const pgDetail = generatePgDetail(id);
         setPgData(pgDetail);
+        setImagesLoaded(new Array(pgDetail.images.length).fill(false));
       } catch (error) {
         console.error("Error loading PG details:", error);
         toast.error("Failed to load PG details");
@@ -68,6 +70,16 @@ const PgDetailPage = () => {
 
     loadPgData();
   }, [id, navigate]);
+
+  const handleImageError = (index: number) => {
+    if (pgData && pgData.images) {
+      const newImages = [...pgData.images];
+      newImages[index] = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80";
+      
+      const updatedPgData = { ...pgData, images: newImages };
+      setPgData(updatedPgData);
+    }
+  };
 
   const handleBookNow = () => {
     if (!isAuthenticated) {
@@ -179,6 +191,7 @@ const PgDetailPage = () => {
                   src={pgData.images[currentImage]} 
                   alt={pgData.name} 
                   className="w-full h-full object-cover"
+                  onError={() => handleImageError(currentImage)}
                 />
               </div>
             </div>
@@ -195,6 +208,7 @@ const PgDetailPage = () => {
                     src={image} 
                     alt={`${pgData.name} - ${index + 1}`} 
                     className="w-full h-full object-cover hover:opacity-90 transition"
+                    onError={() => handleImageError(index + 1)}
                   />
                 </div>
               ))}

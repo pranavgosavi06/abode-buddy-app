@@ -54,6 +54,18 @@ const getRandomElements = (arr: string[], count: number) => {
   return shuffled.slice(0, count);
 };
 
+// Static image URLs that are known to work
+const pgImages = [
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1460317442991-0ec209397118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+  "https://images.unsplash.com/photo-1494203484021-3c454daf695d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+];
+
 // Generate random PG data
 export const generatePgData = (count: number): PgCardProps[] => {
   const pgData: PgCardProps[] = [];
@@ -78,9 +90,9 @@ export const generatePgData = (count: number): PgCardProps[] => {
     
     const price = (Math.floor(Math.random() * 10) + 5) * 1000; // Price between 5000 and 14000
     
-    // Use a more reliable image source with better caching
-    const imageId = Math.floor(Math.random() * 20) + 1;
-    const image = `https://source.unsplash.com/collection/1118894/600x400?sig=${imageId}`; 
+    // Use our static image list
+    const imageIndex = Math.floor(Math.random() * pgImages.length);
+    const image = pgImages[imageIndex];
     
     pgData.push({
       id: generateId(),
@@ -105,6 +117,15 @@ export const generatePgData = (count: number): PgCardProps[] => {
 export const generatePgDetail = (id: string) => {
   const pgData = generatePgData(1)[0];
   pgData.id = id;
+  
+  // Static room images
+  const roomImages = [
+    pgData.image,
+    "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+    "https://images.unsplash.com/photo-1564540583246-934409427776?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+    "https://images.unsplash.com/photo-1617104678098-de229db51175?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
+    "https://images.unsplash.com/photo-1630699144339-420f59b4747a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80"
+  ];
   
   // Additional details
   return {
@@ -138,13 +159,7 @@ export const generatePgDetail = (id: string) => {
       ][Math.floor(Math.random() * 5)],
       date: new Date(Date.now() - Math.random() * 10000000000).toISOString().split('T')[0]
     })),
-    images: [
-      pgData.image,
-      `https://source.unsplash.com/featured/600x400?bedroom,${Math.floor(Math.random() * 1000)}`,
-      `https://source.unsplash.com/featured/600x400?bathroom,${Math.floor(Math.random() * 1000)}`,
-      `https://source.unsplash.com/featured/600x400?kitchen,${Math.floor(Math.random() * 1000)}`,
-      `https://source.unsplash.com/featured/600x400?living,${Math.floor(Math.random() * 1000)}`
-    ],
+    images: roomImages,
     owner: {
       id: generateId(),
       name: 'John Doe',

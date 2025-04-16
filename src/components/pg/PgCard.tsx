@@ -44,7 +44,7 @@ const PgCard = ({
             onError={(e) => {
               // Fallback if image fails to load
               const target = e.target as HTMLImageElement;
-              target.src = "https://source.unsplash.com/featured/600x400?apartment,interior";
+              target.src = "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80";
               target.onerror = null; // Prevent infinite loop if fallback also fails
             }}
           />
